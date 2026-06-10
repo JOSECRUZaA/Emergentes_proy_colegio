@@ -6,7 +6,13 @@ load_dotenv()
 class Config:
     """Configuración general"""
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key-change-in-production')
-    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///colegio.db')
+    # Si estamos en Vercel (read-only filesystem), usar /tmp
+    if os.environ.get('VERCEL'):
+        fallback_db = 'sqlite:////tmp/colegio.db'
+    else:
+        fallback_db = 'sqlite:///colegio.db'
+        
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', fallback_db)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SESSION_COOKIE_SECURE = False
     SESSION_COOKIE_HTTPONLY = True
