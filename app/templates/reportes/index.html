@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Reportes - Colegio Villa Esperanza{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4"><i class="fas fa-chart-line"></i> Reportes</h1>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-chart-bar fa-3x text-primary mb-3"></i>
+                    <h5 class="card-title">Promedios</h5>
+                    <p class="card-text">Ver el promedio de calificaciones por estudiante</p>
+                    <a href="{{ url_for('reportes.promedios') }}" class="btn btn-primary">Ver Reporte</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                    <h5 class="card-title">Aprobados</h5>
+                    <p class="card-text">Estudiantes que aprobaron todas las materias</p>
+                    <a href="{{ url_for('reportes.aprobados') }}" class="btn btn-success">Ver Reporte</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-times-circle fa-3x text-danger mb-3"></i>
+                    <h5 class="card-title">Reprobados</h5>
+                    <p class="card-text">Estudiantes que reprobaron materias</p>
+                    <a href="{{ url_for('reportes.reprobados') }}" class="btn btn-danger">Ver Reporte</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="fas fa-calendar-check fa-3x text-warning mb-3"></i>
+                    <h5 class="card-title">Asistencia</h5>
+                    <p class="card-text">Porcentaje de asistencia por estudiante</p>
+                    <a href="{{ url_for('reportes.asistencia') }}" class="btn btn-warning">Ver Reporte</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

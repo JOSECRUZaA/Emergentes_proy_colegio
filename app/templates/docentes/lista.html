@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Docentes - Colegio Villa Esperanza{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-chalkboard-user"></i> Docentes</h1>
+        <a href="{{ url_for('docentes.nuevo') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nuevo Docente
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Especialidad</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if docentes.items %}
+                    {% for docente in docentes.items %}
+                    <tr>
+                        <td>{{ docente.codigo_empleado }}</td>
+                        <td>{{ docente.usuario.nombre }}</td>
+                        <td>{{ docente.usuario.email }}</td>
+                        <td>{{ docente.especialidad or '-' }}</td>
+                        <td>{{ docente.telefono or '-' }}</td>
+                        <td>
+                            <a href="{{ url_for('docentes.detalle', id=docente.id) }}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ url_for('docentes.editar', id=docente.id) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('docentes.eliminar', id=docente.id) }}" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No hay docentes registrados</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

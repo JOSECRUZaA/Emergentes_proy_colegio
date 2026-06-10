@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Estudiantes - Colegio Villa Esperanza{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-users"></i> Estudiantes</h1>
+        <a href="{{ url_for('estudiantes.nuevo') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nuevo Estudiante
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Matrícula</th>
+                    <th>Nombre</th>
+                    <th>Email</th>
+                    <th>Teléfono</th>
+                    <th>Ciudad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if estudiantes.items %}
+                    {% for estudiante in estudiantes.items %}
+                    <tr>
+                        <td>{{ estudiante.matricula }}</td>
+                        <td>{{ estudiante.usuario.nombre }}</td>
+                        <td>{{ estudiante.usuario.email }}</td>
+                        <td>{{ estudiante.telefono or '-' }}</td>
+                        <td>{{ estudiante.ciudad or '-' }}</td>
+                        <td>
+                            <a href="{{ url_for('estudiantes.detalle', id=estudiante.id) }}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ url_for('estudiantes.editar', id=estudiante.id) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('estudiantes.eliminar', id=estudiante.id) }}" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No hay estudiantes registrados</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    {% if estudiantes.pages > 1 %}
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if estudiantes.has_prev %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('estudiantes.lista', page=estudiantes.prev_num) }}">Anterior</a>
+            </li>
+            {% endif %}
+
+            {% for page_num in estudiantes.iter_pages() %}
+                {% if page_num %}
+                    {% if page_num == estudiantes.page %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page_num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('estudiantes.lista', page=page_num) }}">{{ page_num }}</a>
+                    </li>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% if estudiantes.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{{ url_for('estudiantes.lista', page=estudiantes.next_num) }}">Siguiente</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+{% endblock %}

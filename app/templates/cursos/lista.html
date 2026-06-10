@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Cursos - Colegio Villa Esperanza{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-book"></i> Cursos</h1>
+        <a href="{{ url_for('cursos.nuevo') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nuevo Curso
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Grado</th>
+                    <th>Sección</th>
+                    <th>Capacidad</th>
+                    <th>Docente</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if cursos.items %}
+                    {% for curso in cursos.items %}
+                    <tr>
+                        <td>{{ curso.codigo }}</td>
+                        <td>{{ curso.nombre }}</td>
+                        <td>{{ curso.grado }}</td>
+                        <td>{{ curso.seccion }}</td>
+                        <td>{{ curso.capacidad }}</td>
+                        <td>{{ curso.docente.usuario.nombre }}</td>
+                        <td>
+                            <span class="badge bg-{% if curso.activo %}success{% else %}danger{% endif %}">
+                                {% if curso.activo %}Activo{% else %}Inactivo{% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('cursos.detalle', id=curso.id) }}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ url_for('cursos.editar', id=curso.id) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('cursos.eliminar', id=curso.id) }}" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="8" class="text-center text-muted">No hay cursos registrados</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

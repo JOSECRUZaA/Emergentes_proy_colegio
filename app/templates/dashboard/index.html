@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Colegio Villa Esperanza{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4">
+        <i class="fas fa-chart-line"></i> Dashboard
+    </h1>
+
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <h3>{{ estadisticas.total_estudiantes }}</h3>
+                <p>Estudiantes Registrados</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #27ae60 0%, #229954 100%);">
+                <h3>{{ estadisticas.total_docentes }}</h3>
+                <p>Docentes Activos</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);">
+                <h3>{{ estadisticas.cursos_activos }}</h3>
+                <p>Cursos Activos</p>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                <h3>{{ estadisticas.promedio_general }}</h3>
+                <p>Promedio General</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-book"></i> Módulos de Gestión</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="{{ url_for('estudiantes.lista') }}">📚 Gestión de Estudiantes</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ url_for('docentes.lista') }}">👨‍🏫 Gestión de Docentes</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ url_for('cursos.lista') }}">📖 Gestión de Cursos</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ url_for('materias.lista') }}">✏️ Gestión de Materias</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ url_for('inscripciones.lista') }}">📝 Inscripciones</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-chart-bar"></i> Reportes y Seguimiento</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="{{ url_for('reportes.promedios') }}">📊 Reporte de Promedios</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ url_for('reportes.aprobados') }}">✅ Estudiantes Aprobados</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ url_for('reportes.reprobados') }}">❌ Estudiantes Reprobados</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ url_for('reportes.asistencia') }}">📅 Reporte de Asistencia</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ url_for('calificaciones.lista') }}">⭐ Calificaciones</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if current_user.rol.nombre == 'Administrador' %}
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-lock"></i> Administración del Sistema</h5>
+                </div>
+                <div class="card-body">
+                    <a href="{{ url_for('usuarios.lista') }}" class="btn btn-outline-danger">
+                        <i class="fas fa-users-cog"></i> Gestión de Usuarios
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

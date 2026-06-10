@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Colegio Villa Esperanza{% endblock %}</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #27ae60;
+            --danger: #e74c3c;
+            --warning: #f39c12;
+        }
+        
+        body {
+            background-color: #ecf0f1;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .navbar {
+            background-color: var(--primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .sidebar {
+            background-color: var(--primary);
+            min-height: 100vh;
+            padding: 20px 0;
+        }
+        
+        .sidebar .nav-link {
+            color: #ecf0f1;
+            padding: 12px 20px;
+            border-left: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: var(--secondary);
+            border-left-color: var(--secondary);
+        }
+        
+        .main-content {
+            padding: 20px;
+        }
+        
+        .card {
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: #ecf0f1;
+        }
+        
+        .alert {
+            border-radius: 8px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .stat-card p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .footer {
+            background-color: var(--primary);
+            color: #ecf0f1;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-school"></i> Colegio Villa Esperanza
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user"></i> {{ current_user.nombre }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar Sesión</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">Iniciar Sesión</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="{% if current_user.is_authenticated %}container-fluid{% else %}container mt-5{% endif %}">
+        {% if current_user.is_authenticated %}
+        <div class="row">
+            <div class="col-md-3 sidebar d-none d-md-block">
+                <nav class="nav flex-column">
+                    <a class="nav-link" href="{{ url_for('dashboard.index') }}">
+                        <i class="fas fa-chart-line"></i> Dashboard
+                    </a>
+                    
+                    {% if current_user.rol.nombre in ['Administrador', 'Secretario Académico'] %}
+                    <div class="nav-header mt-3">Gestión Académica</div>
+                    <a class="nav-link" href="{{ url_for('estudiantes.lista') }}">
+                        <i class="fas fa-users"></i> Estudiantes
+                    </a>
+                    <a class="nav-link" href="{{ url_for('docentes.lista') }}">
+                        <i class="fas fa-chalkboard-user"></i> Docentes
+                    </a>
+                    <a class="nav-link" href="{{ url_for('cursos.lista') }}">
+                        <i class="fas fa-book"></i> Cursos
+                    </a>
+                    <a class="nav-link" href="{{ url_for('materias.lista') }}">
+                        <i class="fas fa-list"></i> Materias
+                    </a>
+                    <a class="nav-link" href="{{ url_for('inscripciones.lista') }}">
+                        <i class="fas fa-pen-to-square"></i> Inscripciones
+                    </a>
+                    {% endif %}
+                    
+                    {% if current_user.rol.nombre in ['Administrador', 'Docente'] %}
+                    <div class="nav-header mt-3">Seguimiento</div>
+                    <a class="nav-link" href="{{ url_for('calificaciones.lista') }}">
+                        <i class="fas fa-star"></i> Calificaciones
+                    </a>
+                    <a class="nav-link" href="{{ url_for('asistencias.lista') }}">
+                        <i class="fas fa-clipboard-check"></i> Asistencias
+                    </a>
+                    {% endif %}
+                    
+                    <div class="nav-header mt-3">Reportes</div>
+                    <a class="nav-link" href="{{ url_for('reportes.promedios') }}">
+                        <i class="fas fa-chart-bar"></i> Promedios
+                    </a>
+                    <a class="nav-link" href="{{ url_for('reportes.aprobados') }}">
+                        <i class="fas fa-check-circle"></i> Aprobados
+                    </a>
+                    <a class="nav-link" href="{{ url_for('reportes.reprobados') }}">
+                        <i class="fas fa-times-circle"></i> Reprobados
+                    </a>
+                    <a class="nav-link" href="{{ url_for('reportes.asistencia') }}">
+                        <i class="fas fa-calendar-check"></i> Asistencia
+                    </a>
+                    
+                    {% if current_user.rol.nombre == 'Administrador' %}
+                    <div class="nav-header mt-3">Administración</div>
+                    <a class="nav-link" href="{{ url_for('usuarios.lista') }}">
+                        <i class="fas fa-lock"></i> Usuarios
+                    </a>
+                    {% endif %}
+                </nav>
+            </div>
+
+            <div class="col-md-9 main-content">
+        {% endif %}
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                        <div class="alert alert-{{ 'danger' if category == 'danger' else 'success' if category == 'success' else 'warning' }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+
+        {% if current_user.is_authenticated %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        <p>&copy; 2026 Colegio Villa Esperanza. Sistema Administrativo Educativo.</p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

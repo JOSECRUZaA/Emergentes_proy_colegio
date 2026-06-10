@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Inscripciones - Colegio Villa Esperanza{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-pen-to-square"></i> Inscripciones</h1>
+        <a href="{{ url_for('inscripciones.nueva') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nueva Inscripción
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Curso</th>
+                    <th>Fecha Inscripción</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if inscripciones.items %}
+                    {% for inscripcion in inscripciones.items %}
+                    <tr>
+                        <td>{{ inscripcion.estudiante.usuario.nombre }}</td>
+                        <td>{{ inscripcion.curso.nombre }}</td>
+                        <td>{{ inscripcion.fecha_inscripcion.strftime('%d/%m/%Y') }}</td>
+                        <td>
+                            <span class="badge bg-{% if inscripcion.estado == 'Activo' %}success{% elif inscripcion.estado == 'Suspendido' %}warning{% else %}danger{% endif %}">
+                                {{ inscripcion.estado }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('inscripciones.editar', id=inscripcion.id) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('inscripciones.eliminar', id=inscripcion.id) }}" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">No hay inscripciones registradas</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

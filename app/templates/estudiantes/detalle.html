@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle Estudiante - Colegio Villa Esperanza{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-user"></i> {{ estudiante.usuario.nombre }}</h1>
+        <div>
+            <a href="{{ url_for('estudiantes.editar', id=estudiante.id) }}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Editar
+            </a>
+            <a href="{{ url_for('estudiantes.lista') }}" class="btn btn-secondary">Volver</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Información Personal</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Matrícula:</strong> {{ estudiante.matricula }}</p>
+                    <p><strong>Email:</strong> {{ estudiante.usuario.email }}</p>
+                    <p><strong>Teléfono:</strong> {{ estudiante.telefono or 'No especificado' }}</p>
+                    <p><strong>Dirección:</strong> {{ estudiante.direccion or 'No especificada' }}</p>
+                    <p><strong>Ciudad:</strong> {{ estudiante.ciudad or 'No especificada' }}</p>
+                    <p><strong>Fecha Nacimiento:</strong> {{ estudiante.fecha_nacimiento or 'No especificada' }}</p>
+                    <p><strong>Fecha de Ingreso:</strong> {{ estudiante.fecha_ingreso.strftime('%d/%m/%Y') }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">Inscripciones Activas</h5>
+                </div>
+                <div class="card-body">
+                    {% if inscripciones %}
+                    <ul class="list-group">
+                        {% for inscripcion in inscripciones %}
+                        <li class="list-group-item">
+                            <strong>{{ inscripcion.curso.nombre }}</strong><br>
+                            <small>Estado: {{ inscripcion.estado }}</small>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p class="text-muted">No hay inscripciones activas</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

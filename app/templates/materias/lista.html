@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Materias - Colegio Villa Esperanza{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="fas fa-list"></i> Materias</h1>
+        <a href="{{ url_for('materias.nuevo') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nueva Materia
+        </a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Curso</th>
+                    <th>Créditos</th>
+                    <th>Horas/Semana</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if materias.items %}
+                    {% for materia in materias.items %}
+                    <tr>
+                        <td>{{ materia.codigo }}</td>
+                        <td>{{ materia.nombre }}</td>
+                        <td>{{ materia.curso.nombre }}</td>
+                        <td>{{ materia.creditos }}</td>
+                        <td>{{ materia.horas_semana }}</td>
+                        <td>
+                            <span class="badge bg-{% if materia.activa %}success{% else %}danger{% endif %}">
+                                {% if materia.activa %}Activa{% else %}Inactiva{% endif %}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for('materias.detalle', id=materia.id) }}" class="btn btn-sm btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ url_for('materias.editar', id=materia.id) }}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="POST" action="{{ url_for('materias.eliminar', id=materia.id) }}" style="display:inline;">
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Está seguro?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted">No hay materias registradas</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
