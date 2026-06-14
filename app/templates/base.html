@@ -32,31 +32,53 @@
         
         .sidebar {
             background-color: var(--primary);
-            min-height: 100vh;
+            min-height: calc(100vh - 56px);
             padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-header {
+            color: #95a5a6;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            padding: 15px 20px 5px;
+            font-weight: 600;
         }
         
         .sidebar .nav-link {
             color: #ecf0f1;
-            padding: 12px 20px;
+            padding: 10px 20px;
             border-left: 3px solid transparent;
             transition: all 0.3s ease;
+            font-size: 0.95rem;
+        }
+        
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
         }
         
         .sidebar .nav-link:hover,
         .sidebar .nav-link.active {
             background-color: var(--secondary);
-            border-left-color: var(--secondary);
+            border-left-color: #ecf0f1;
+            color: white;
         }
         
         .main-content {
-            padding: 20px;
+            padding: 30px;
+            min-height: 100vh;
+            background-color: #ecf0f1;
         }
         
         .card {
             border: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 10px;
         }
         
         .btn-primary {
@@ -70,7 +92,7 @@
         }
         
         .table-hover tbody tr:hover {
-            background-color: #ecf0f1;
+            background-color: rgba(52, 152, 219, 0.05);
         }
         
         .alert {
@@ -80,28 +102,48 @@
         .stat-card {
             background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
             color: white;
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 10px;
+            padding: 25px;
             text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
         }
         
         .stat-card h3 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
+            margin-bottom: 10px;
         }
         
         .stat-card p {
             margin: 0;
-            font-size: 0.9rem;
+            font-size: 1rem;
             opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .footer {
-            background-color: var(--primary);
-            color: #ecf0f1;
+            background-color: white;
+            color: #7f8c8d;
             padding: 20px;
             text-align: center;
-            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            margin-top: 0;
+        }
+        
+        /* Remove default row margins when in fluid to prevent horizontal scroll */
+        .container-fluid > .row {
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .sidebar-col {
+            padding-left: 0;
+            padding-right: 0;
         }
     </style>
     {% block extra_css %}{% endblock %}
@@ -138,10 +180,10 @@
         </div>
     </nav>
 
-    <div class="{% if current_user.is_authenticated %}container-fluid{% else %}container mt-5{% endif %}">
+    <div class="{% if current_user.is_authenticated %}container-fluid p-0{% else %}container mt-5{% endif %}">
         {% if current_user.is_authenticated %}
         <div class="row">
-            <div class="col-md-3 sidebar d-none d-md-block">
+            <div class="col-md-2 sidebar d-none d-md-block sidebar-col">
                 <nav class="nav flex-column">
                     <a class="nav-link" href="{{ url_for('dashboard.index') }}">
                         <i class="fas fa-chart-line"></i> Dashboard
@@ -199,7 +241,7 @@
                 </nav>
             </div>
 
-            <div class="col-md-9 main-content">
+            <div class="col-md-10 main-content">
         {% endif %}
 
                 {% with messages = get_flashed_messages(with_categories=true) %}
