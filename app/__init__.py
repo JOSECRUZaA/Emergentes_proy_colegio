@@ -51,6 +51,7 @@ def crear_roles_iniciales():
         {'nombre': 'Administrador', 'descripcion': 'Acceso total al sistema'},
         {'nombre': 'Secretario Académico', 'descripcion': 'Gestiona académica'},
         {'nombre': 'Docente', 'descripcion': 'Docente del colegio'},
+        {'nombre': 'Estudiante', 'descripcion': 'Estudiante del colegio'},
     ]
     
     for rol_data in roles:
