@@ -66,6 +66,7 @@ def editar(id):
             materia.creditos = request.form.get('creditos')
             materia.curso_id = request.form.get('curso_id')
             materia.horas_semana = request.form.get('horas_semana')
+            materia.activa = request.form.get('activa') in ['true', 'on']
             
             db.session.commit()
             flash('Materia actualizada exitosamente', 'success')

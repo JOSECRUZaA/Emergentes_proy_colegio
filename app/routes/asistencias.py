@@ -39,7 +39,7 @@ def nueva():
                 docente_id=request.form.get('docente_id'),
                 materia_id=request.form.get('materia_id'),
                 fecha=request.form.get('fecha'),
-                presente=request.form.get('presente') == 'on',
+                presente=request.form.get('presente') in ['true', 'on'],
                 observacion=request.form.get('observacion')
             )
             db.session.add(asistencia)
@@ -63,7 +63,7 @@ def editar(id):
     
     if request.method == 'POST':
         try:
-            asistencia.presente = request.form.get('presente') == 'on'
+            asistencia.presente = request.form.get('presente') in ['true', 'on']
             asistencia.observacion = request.form.get('observacion')
             
             db.session.commit()
