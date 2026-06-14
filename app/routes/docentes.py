@@ -36,9 +36,14 @@ def nuevo():
     if request.method == 'POST':
         try:
             rol_docente = Rol.query.filter_by(nombre='Docente').first()
+            email = request.form.get('email')
+            if Usuario.query.filter_by(email=email).first():
+                flash('Ese correo electrónico ya está registrado en el sistema. Por favor, usa uno diferente.', 'warning')
+                return render_template('docentes/nuevo.html')
+
             usuario = Usuario(
                 nombre=request.form.get('nombre'),
-                email=request.form.get('email'),
+                email=email,
                 rol_id=rol_docente.id
             )
             usuario.set_password(request.form.get('contraseña', 'temporal123'))
