@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Nueva Materia - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4"><i class="fas fa-list"></i> Registrar Nueva Materia</h1>
+            <form method="POST" class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre de la Materia *</label>
+                            <input type="text" class="form-control" name="nombre" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Código de Materia *</label>
+                            <input type="text" class="form-control" name="codigo" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Créditos *</label>
+                            <input type="number" class="form-control" name="creditos" value="3" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Horas por Semana *</label>
+                            <input type="number" class="form-control" name="horas_semana" value="4" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Curso Asociado *</label>
+                        <select name="curso_id" class="form-select" required>
+                            <option value="">Seleccione un curso...</option>
+                            {% for curso in cursos %}
+                            <option value="{{ curso.id }}">{{ curso.nombre }} (Grado: {{ curso.grado }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('materias.lista') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Registrar Materia</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Editar Asistencia - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4"><i class="fas fa-edit"></i> Editar Asistencia</h1>
+            <form method="POST" class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Estudiante</label>
+                        <input type="text" class="form-control" value="{{ asistencia.estudiante.usuario.nombre }}" disabled>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Materia</label>
+                            <input type="text" class="form-control" value="{{ asistencia.materia.nombre }}" disabled>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Fecha de Clase</label>
+                            <input type="text" class="form-control" value="{{ asistencia.fecha.strftime('%Y-%m-%d') }}" disabled>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="presente" id="presente" value="true" {% if asistencia.presente %}checked{% endif %}>
+                            <label class="form-check-label fw-bold text-success" for="presente">
+                                El estudiante estuvo PRESENTE
+                            </label>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Observaciones</label>
+                        <input type="text" class="form-control" name="observacion" value="{{ asistencia.observacion or '' }}">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('asistencias.lista') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Actualizar Asistencia</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

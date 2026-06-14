@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Detalles Docente - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><i class="fas fa-chalkboard-user"></i> Detalles del Docente</h3>
+            <a href="{{ url_for('docentes.lista') }}" class="btn btn-light btn-sm">Volver a la Lista</a>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Nombre:</strong> {{ docente.usuario.nombre }}</p>
+                    <p><strong>Email:</strong> {{ docente.usuario.email }}</p>
+                    <p><strong>Código de Empleado:</strong> {{ docente.codigo_empleado }}</p>
+                    <p><strong>Especialidad:</strong> {{ docente.especialidad or 'N/A' }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Teléfono:</strong> {{ docente.telefono or 'N/A' }}</p>
+                    <p><strong>Dirección:</strong> {{ docente.direccion or 'N/A' }}</p>
+                    <p><strong>Ciudad:</strong> {{ docente.ciudad or 'N/A' }}</p>
+                    <p><strong>Fecha Ingreso:</strong> {{ docente.fecha_ingreso.strftime('%Y-%m-%d') }}</p>
+                </div>
+            </div>
+            <div class="mt-3">
+                <a href="{{ url_for('docentes.editar', id=docente.id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0">Cursos Asignados</h4>
+        </div>
+        <div class="card-body">
+            {% if cursos %}
+            <ul class="list-group">
+                {% for curso in cursos %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ curso.nombre }} ({{ curso.codigo }}) - Grado: {{ curso.grado }}
+                    <a href="{{ url_for('cursos.detalle', id=curso.id) }}" class="btn btn-sm btn-info text-white">Ver Curso</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>Este docente no tiene cursos asignados.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Nueva Inscripción - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4"><i class="fas fa-pen-to-square"></i> Registrar Nueva Inscripción</h1>
+            <form method="POST" class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Estudiante *</label>
+                        <select name="estudiante_id" class="form-select" required>
+                            <option value="">Seleccione un estudiante...</option>
+                            {% for estudiante in estudiantes %}
+                            <option value="{{ estudiante.id }}">{{ estudiante.usuario.nombre }} (Matrícula: {{ estudiante.matricula }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Curso a Inscribir *</label>
+                        <select name="curso_id" class="form-select" required>
+                            <option value="">Seleccione un curso...</option>
+                            {% for curso in cursos %}
+                            <option value="{{ curso.id }}">{{ curso.nombre }} - {{ curso.grado }} "{{ curso.seccion }}"</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('inscripciones.lista') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Registrar Inscripción</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

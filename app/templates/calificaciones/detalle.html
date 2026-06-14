@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Detalles Calificación - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><i class="fas fa-star"></i> Detalles de Calificación</h3>
+            <a href="{{ url_for('calificaciones.lista') }}" class="btn btn-light btn-sm">Volver a la Lista</a>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <p><strong>Estudiante:</strong> {{ calificacion.estudiante.usuario.nombre }}</p>
+                    <p><strong>Matrícula:</strong> {{ calificacion.estudiante.matricula }}</p>
+                    <p><strong>Período:</strong> {{ calificacion.periodo }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Materia:</strong> {{ calificacion.materia.nombre }}</p>
+                    <p><strong>Docente Evaluador:</strong> {{ calificacion.docente.usuario.nombre }}</p>
+                    <p><strong>Promedio Calculado:</strong> 
+                        {% set promedio = calificacion.calcular_promedio() %}
+                        {% if promedio %}
+                            {{ "%.2f"|format(promedio) }}
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            
+            <h4 class="mt-4 mb-3">Desglose de Notas</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Parcial 1</th>
+                            <th>Parcial 2</th>
+                            <th>Parcial 3</th>
+                            <th class="table-primary">Nota Final Oficial</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ calificacion.nota_parcial1 or '-' }}</td>
+                            <td>{{ calificacion.nota_parcial2 or '-' }}</td>
+                            <td>{{ calificacion.nota_parcial3 or '-' }}</td>
+                            <td class="table-primary fw-bold">{{ calificacion.nota_final or '-' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                <a href="{{ url_for('calificaciones.editar', id=calificacion.id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar Notas</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

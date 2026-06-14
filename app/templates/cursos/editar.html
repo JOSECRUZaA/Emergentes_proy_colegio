@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Editar Curso - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4"><i class="fas fa-edit"></i> Editar Curso: {{ curso.nombre }}</h1>
+            <form method="POST" class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre del Curso *</label>
+                            <input type="text" class="form-control" name="nombre" value="{{ curso.nombre }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Código del Curso *</label>
+                            <input type="text" class="form-control" name="codigo" value="{{ curso.codigo }}" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Grado *</label>
+                            <input type="text" class="form-control" name="grado" value="{{ curso.grado }}" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Sección</label>
+                            <input type="text" class="form-control" name="seccion" value="{{ curso.seccion }}">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Capacidad *</label>
+                            <input type="number" class="form-control" name="capacidad" value="{{ curso.capacidad }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Docente Responsable *</label>
+                        <select name="docente_id" class="form-select" required>
+                            {% for docente in docentes %}
+                            <option value="{{ docente.id }}" {% if curso.docente_id == docente.id %}selected{% endif %}>
+                                {{ docente.usuario.nombre }} ({{ docente.especialidad or 'Sin esp.' }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('cursos.lista') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Actualizar Curso</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

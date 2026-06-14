@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Editar Materia - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4"><i class="fas fa-edit"></i> Editar Materia: {{ materia.nombre }}</h1>
+            <form method="POST" class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre de la Materia *</label>
+                            <input type="text" class="form-control" name="nombre" value="{{ materia.nombre }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Código de Materia *</label>
+                            <input type="text" class="form-control" name="codigo" value="{{ materia.codigo }}" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Créditos *</label>
+                            <input type="number" class="form-control" name="creditos" value="{{ materia.creditos }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Horas por Semana *</label>
+                            <input type="number" class="form-control" name="horas_semana" value="{{ materia.horas_semana }}" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Curso Asociado *</label>
+                        <select name="curso_id" class="form-select" required>
+                            {% for curso in cursos %}
+                            <option value="{{ curso.id }}" {% if materia.curso_id == curso.id %}selected{% endif %}>
+                                {{ curso.nombre }} (Grado: {{ curso.grado }})
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="activa" name="activa" {% if materia.activa %}checked{% endif %}>
+                        <label class="form-check-label" for="activa">Materia Activa</label>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('materias.lista') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Actualizar Materia</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

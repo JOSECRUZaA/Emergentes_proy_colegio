@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Detalles Curso - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h3 class="mb-0"><i class="fas fa-book"></i> Detalles del Curso</h3>
+            <a href="{{ url_for('cursos.lista') }}" class="btn btn-light btn-sm">Volver a la Lista</a>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Nombre:</strong> {{ curso.nombre }}</p>
+                    <p><strong>Código:</strong> {{ curso.codigo }}</p>
+                    <p><strong>Grado y Sección:</strong> {{ curso.grado }} "{{ curso.seccion }}"</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Capacidad:</strong> {{ curso.capacidad }} estudiantes</p>
+                    <p><strong>Docente Responsable:</strong> <a href="{{ url_for('docentes.detalle', id=curso.docente_id) }}">{{ curso.docente.usuario.nombre }}</a></p>
+                    <p><strong>Estado:</strong> {% if curso.activo %}<span class="badge bg-success">Activo</span>{% else %}<span class="badge bg-danger">Inactivo</span>{% endif %}</p>
+                </div>
+            </div>
+            <div class="mt-3">
+                <a href="{{ url_for('cursos.editar', id=curso.id) }}" class="btn btn-warning"><i class="fas fa-edit"></i> Editar</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h4 class="mb-0">Materias del Curso</h4>
+        </div>
+        <div class="card-body">
+            {% if materias %}
+            <ul class="list-group">
+                {% for materia in materias %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ materia.nombre }} ({{ materia.codigo }}) - Créditos: {{ materia.creditos }}
+                    <a href="{{ url_for('materias.detalle', id=materia.id) }}" class="btn btn-sm btn-info text-white">Ver Materia</a>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No hay materias asignadas a este curso.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

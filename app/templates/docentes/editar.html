@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Editar Docente - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4"><i class="fas fa-edit"></i> Editar Docente: {{ docente.usuario.nombre }}</h1>
+            <form method="POST" class="card">
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre Completo *</label>
+                            <input type="text" class="form-control" name="nombre" value="{{ docente.usuario.nombre }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-control" name="email" value="{{ docente.usuario.email }}" required>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Código de Empleado *</label>
+                            <input type="text" class="form-control" name="codigo_empleado" value="{{ docente.codigo_empleado }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Especialidad</label>
+                            <input type="text" class="form-control" name="especialidad" value="{{ docente.especialidad or '' }}">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono</label>
+                            <input type="tel" class="form-control" name="telefono" value="{{ docente.telefono or '' }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Ciudad</label>
+                            <input type="text" class="form-control" name="ciudad" value="{{ docente.ciudad or '' }}">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Dirección</label>
+                        <input type="text" class="form-control" name="direccion" value="{{ docente.direccion or '' }}">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('docentes.lista') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Actualizar Docente</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Registrar Asistencia - Colegio Villa Esperanza{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="mb-4"><i class="fas fa-clipboard-check"></i> Registrar Asistencia</h1>
+            <form method="POST" class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Estudiante *</label>
+                        <select name="estudiante_id" class="form-select" required>
+                            <option value="">Seleccione un estudiante...</option>
+                            {% for estudiante in estudiantes %}
+                            <option value="{{ estudiante.id }}">{{ estudiante.usuario.nombre }} (Matrícula: {{ estudiante.matricula }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Materia *</label>
+                            <select name="materia_id" class="form-select" required>
+                                <option value="">Seleccione materia...</option>
+                                {% for materia in materias %}
+                                <option value="{{ materia.id }}">{{ materia.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Docente que Registra *</label>
+                            <select name="docente_id" class="form-select" required>
+                                <option value="">Seleccione docente...</option>
+                                {% for docente in docentes %}
+                                <option value="{{ docente.id }}">{{ docente.usuario.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Fecha de Clase *</label>
+                            <input type="date" class="form-control" name="fecha" required>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center mt-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="presente" id="presente" value="true" checked>
+                                <label class="form-check-label fw-bold text-success" for="presente">
+                                    El estudiante estuvo PRESENTE
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Observaciones (Opcional)</label>
+                        <input type="text" class="form-control" name="observacion" placeholder="Ej. Llegó tarde, justificación médica, etc.">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ url_for('asistencias.lista') }}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-primary">Guardar Asistencia</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
