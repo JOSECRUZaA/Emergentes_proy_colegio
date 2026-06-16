@@ -19,8 +19,18 @@ def requiere_docente_o_admin(f):
 @requiere_docente_o_admin
 def lista():
     page = request.args.get('page', 1, type=int)
-    calificaciones = Calificacion.query.paginate(page=page, per_page=10)
-    return render_template('calificaciones/lista.html', calificaciones=calificaciones)
+    curso_id = request.args.get('curso_id', type=int)
+    
+    query = Calificacion.query
+    if curso_id:
+        query = query.join(Materia).filter(Materia.curso_id == curso_id)
+        
+    calificaciones = query.paginate(page=page, per_page=10)
+    
+    from app.models import Curso
+    cursos = Curso.query.filter_by(activo=True).order_by(Curso.grado, Curso.seccion).all()
+    
+    return render_template('calificaciones/lista.html', calificaciones=calificaciones, cursos=cursos, curso_actual=curso_id)
 
 @calificaciones_bp.route('/<int:id>')
 @login_required
