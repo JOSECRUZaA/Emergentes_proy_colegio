@@ -265,7 +265,7 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
+    <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">
                 <i class="fas fa-school"></i> Colegio Villa Esperanza
@@ -277,13 +277,25 @@
                 <ul class="navbar-nav ms-auto">
                     {% if current_user.is_authenticated %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-user"></i> {{ current_user.nombre }}
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" style="padding-top: 0.25rem; padding-bottom: 0.25rem;">
+                            <div class="user-avatar text-white me-2 d-flex justify-content-center align-items-center rounded-circle" style="width: 38px; height: 38px; font-weight: 600; background: linear-gradient(135deg, var(--secondary) 0%, #2563eb 100%); box-shadow: 0 2px 4px rgba(59,130,246,0.3);">
+                                {{ current_user.nombre[0].upper() if current_user.nombre else 'U' }}
+                            </div>
+                            <div class="user-info text-start me-1 d-none d-sm-block" style="line-height: 1.2;">
+                                <div class="user-name fw-bold" style="color: var(--primary); font-size: 0.95rem;">{{ current_user.nombre }}</div>
+                                <div class="user-role text-muted" style="font-size: 0.75rem; font-weight: 500;">{{ current_user.rol.nombre if current_user.rol else 'Administrador' }}</div>
+                            </div>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#">Mi Perfil</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar Sesión</a></li>
+                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg mt-2" aria-labelledby="userDropdown" style="border-radius: 12px; min-width: 220px; padding: 0.5rem 0;">
+                            <li class="px-3 py-2 mb-1 d-sm-none">
+                                <div class="fw-bold" style="color: var(--primary);">{{ current_user.nombre }}</div>
+                                <div class="text-muted" style="font-size: 0.8rem;">{{ current_user.rol.nombre if current_user.rol else 'Administrador' }}</div>
+                                <hr class="dropdown-divider mt-2 mb-0">
+                            </li>
+                            <li><a class="dropdown-item py-2 px-3 d-flex align-items-center" href="#"><i class="fas fa-id-badge text-secondary me-3" style="width: 16px; text-align: center;"></i> <span style="font-weight: 500;">Mi Perfil</span></a></li>
+                            <li><a class="dropdown-item py-2 px-3 d-flex align-items-center" href="#"><i class="fas fa-cog text-secondary me-3" style="width: 16px; text-align: center;"></i> <span style="font-weight: 500;">Configuración</span></a></li>
+                            <li><hr class="dropdown-divider my-2"></li>
+                            <li><a class="dropdown-item py-2 px-3 text-danger d-flex align-items-center" href="{{ url_for('auth.logout') }}"><i class="fas fa-sign-out-alt me-3" style="width: 16px; text-align: center;"></i> <span style="font-weight: 500;">Cerrar Sesión</span></a></li>
                         </ul>
                     </li>
                     {% else %}
