@@ -6,183 +6,248 @@
     <title>{% block title %}Colegio Villa Esperanza{% endblock %}</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --success: #27ae60;
-            --danger: #e74c3c;
-            --warning: #f39c12;
+            /* Modern Tailwind-inspired color palette */
+            --primary: #1e293b; /* Slate 800 */
+            --primary-hover: #0f172a; /* Slate 900 */
+            --secondary: #3b82f6; /* Blue 500 */
+            --secondary-hover: #2563eb; /* Blue 600 */
+            --success: #10b981; /* Emerald 500 */
+            --danger: #ef4444; /* Red 500 */
+            --warning: #f59e0b; /* Amber 500 */
+            --background: #f8fafc; /* Slate 50 */
+            --surface: #ffffff;
+            --text-main: #334155; /* Slate 700 */
+            --text-muted: #64748b; /* Slate 500 */
         }
         
         body {
-            background-color: #ecf0f1;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
         }
         
+        /* Navbar */
         .navbar {
-            background-color: var(--primary);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background-color: var(--surface) !important;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            padding: 0.75rem 1.5rem;
         }
-        
         .navbar-brand {
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
+            color: var(--primary) !important;
+            letter-spacing: -0.5px;
         }
-        
+        .navbar-brand i {
+            color: var(--secondary);
+            margin-right: 8px;
+        }
+        .nav-link {
+            color: var(--text-main) !important;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .nav-link:hover {
+            color: var(--secondary) !important;
+        }
+
+        /* Sidebar */
         .sidebar {
             background-color: var(--primary);
-            min-height: calc(100vh - 56px);
-            padding: 20px 0;
+            min-height: calc(100vh - 66px);
+            padding: 25px 15px;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.03);
         }
-        
         .nav-header {
-            color: #95a5a6;
-            font-size: 0.8rem;
+            color: #94a3b8;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1.2px;
-            padding: 15px 20px 5px;
-            font-weight: 600;
+            letter-spacing: 1.5px;
+            padding: 15px 15px 5px;
+            font-weight: 700;
         }
-        
         .sidebar .nav-link {
-            color: #ecf0f1;
-            padding: 10px 20px;
-            border-left: 3px solid transparent;
-            transition: all 0.3s ease;
+            color: #cbd5e1 !important;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
             font-size: 0.95rem;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
         }
-        
         .sidebar .nav-link i {
-            margin-right: 10px;
+            margin-right: 12px;
             width: 20px;
             text-align: center;
+            font-size: 1.1rem;
         }
-        
-        .sidebar .nav-link:hover,
+        .sidebar .nav-link:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: white !important;
+            transform: translateX(4px);
+        }
         .sidebar .nav-link.active {
             background-color: var(--secondary);
-            border-left-color: #ecf0f1;
-            color: white;
+            color: white !important;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.5);
         }
-        
+
+        /* Main Content */
         .main-content {
-            padding: 30px;
+            padding: 35px 40px;
             min-height: 100vh;
-            background-color: #ecf0f1;
+        }
+        h1 {
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+            font-size: 2rem;
         }
         
+        /* Cards */
         .card {
             border: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border-radius: 10px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            border-radius: 12px;
+            background-color: var(--surface);
+            transition: box-shadow 0.3s ease;
         }
         
+        /* Buttons */
+        .btn {
+            font-weight: 600;
+            border-radius: 8px;
+            padding: 8px 16px;
+            transition: all 0.2s ease;
+        }
         .btn-primary {
             background-color: var(--secondary);
             border-color: var(--secondary);
         }
-        
         .btn-primary:hover {
-            background-color: #2980b9;
-            border-color: #2980b9;
+            background-color: var(--secondary-hover);
+            border-color: var(--secondary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
         
-        /* Mejoras en las Tablas */
+        /* Mejoras en las Tablas (Consolidado) */
         .card-body .table {
             background-color: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             margin-bottom: 0;
             border-collapse: separate;
             border-spacing: 0;
-            border: 1px solid #e0e6ed;
+            border: 1px solid #e2e8f0;
         }
         .card-body .table thead th {
-            background-color: var(--primary);
-            color: white;
+            background-color: #f8fafc;
+            color: var(--text-muted);
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 0.5px;
-            padding: 16px;
-            border: none;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            padding: 18px 20px;
+            border-bottom: 1px solid #e2e8f0;
+            border-top: none;
+            border-left: none;
+            border-right: none;
         }
         .card-body .table tbody td {
-            padding: 15px 16px;
+            padding: 16px 20px;
             vertical-align: middle;
-            border-bottom: 1px solid #e0e6ed;
-            color: #333;
+            border-bottom: 1px solid #f1f5f9;
+            color: var(--text-main);
             font-weight: 500;
+            border-top: none;
         }
         .card-body .table tbody tr:last-child td {
             border-bottom: none;
         }
         .card-body .table-striped>tbody>tr:nth-of-type(odd)>* {
-            background-color: #f8fafc;
+            background-color: #fbfcfd;
             color: inherit;
         }
         .card-body .table-hover tbody tr:hover>* {
-            background-color: rgba(52, 152, 219, 0.1);
-            transition: all 0.2s ease;
+            background-color: #f1f5f9;
+            transition: background-color 0.2s ease;
         }
-        .card-body .btn-sm {
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-weight: 600;
-        }
+        
+        /* Badges */
         .badge {
-            padding: 7px 12px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-weight: 600;
             letter-spacing: 0.3px;
+            font-size: 0.75rem;
         }
-        
-        .alert {
-            border-radius: 8px;
-        }
-        
+        .bg-success { background-color: var(--success) !important; color: white; }
+        .bg-warning { background-color: var(--warning) !important; color: white; }
+        .bg-danger { background-color: var(--danger) !important; color: white; }
+        .bg-info { background-color: #0ea5e9 !important; color: white; }
+
+        /* Stat Cards */
         .stat-card {
-            background: linear-gradient(135deg, var(--secondary) 0%, #2980b9 100%);
+            background: linear-gradient(135deg, var(--secondary) 0%, #2563eb 100%);
             color: white;
-            border-radius: 10px;
-            padding: 25px;
+            border-radius: 16px;
+            padding: 30px;
             text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.4);
         }
-        
+        .stat-card:hover::after {
+            opacity: 1;
+        }
         .stat-card h3 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+            font-size: 3.2rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            letter-spacing: -1px;
         }
-        
         .stat-card p {
             margin: 0;
-            font-size: 1rem;
+            font-size: 1.05rem;
+            font-weight: 600;
             opacity: 0.9;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
         
+        /* Footer */
         .footer {
-            background-color: white;
-            color: #7f8c8d;
-            padding: 20px;
+            background-color: var(--surface);
+            color: var(--text-muted);
+            padding: 25px;
             text-align: center;
-            border-top: 1px solid #ddd;
-            margin-top: 0;
+            border-top: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            font-weight: 500;
         }
         
-        /* Remove default row margins when in fluid to prevent horizontal scroll */
         .container-fluid > .row {
             margin-left: 0;
             margin-right: 0;
