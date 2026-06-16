@@ -19,8 +19,17 @@ def requiere_admin_o_secretario(f):
 @requiere_admin_o_secretario
 def lista():
     page = request.args.get('page', 1, type=int)
-    docentes = Docente.query.paginate(page=page, per_page=10)
-    return render_template('docentes/lista.html', docentes=docentes)
+    q = request.args.get('q', '')
+    
+    query = Docente.query.join(Usuario)
+    if q:
+        query = query.filter(db.or_(
+            Usuario.nombre.ilike(f'%{q}%'),
+            Docente.especialidad.ilike(f'%{q}%')
+        ))
+        
+    docentes = query.paginate(page=page, per_page=10)
+    return render_template('docentes/lista.html', docentes=docentes, q=q)
 
 @docentes_bp.route('/<int:id>')
 @login_required
