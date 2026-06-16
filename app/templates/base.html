@@ -61,13 +61,13 @@
         /* Sidebar */
         .sidebar {
             background-color: var(--primary);
-            min-height: calc(100vh - 66px);
+            height: calc(100vh - 66px);
             padding: 25px 15px;
-            position: sticky;
-            top: 66px; /* Offset for sticky navbar */
+            position: sticky !important;
+            top: 66px !important;
+            align-self: flex-start; /* Evita que la columna se estire, permitiendo que sea sticky */
             z-index: 1000;
             box-shadow: 4px 0 10px rgba(0,0,0,0.03);
-            max-height: calc(100vh - 66px);
             overflow-y: auto;
         }
         .nav-header {
